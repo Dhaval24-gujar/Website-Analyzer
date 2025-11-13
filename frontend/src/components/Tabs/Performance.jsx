@@ -26,20 +26,21 @@ const Performance = ({ results }) => {
       </Typography>
 
       {/* Connection Reuse */}
-      <Typography
-        variant="h6"
-        sx={{
-          mt: 2,
-          mb: 3,
-          fontWeight: 700,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        🔄 Connection Reuse Optimization
-      </Typography>
-      <Plot
+      <div id="performance-chart">
+        <Typography
+          variant="h6"
+          sx={{
+            mt: 2,
+            mb: 3,
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          🔄 Connection Reuse Optimization
+        </Typography>
+        <Plot
         data={[
           {
             x: urls,
@@ -57,26 +58,27 @@ const Performance = ({ results }) => {
         layout={{
           title: {
             text: "Time Saved by Connection Reuse (ms)",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           xaxis: {
             title: "Website",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           yaxis: {
             title: "Time Saved (ms)",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
         }}
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}
       />
+      </div>
 
       {/* Compression Distribution */}
       <Typography
@@ -111,7 +113,7 @@ const Performance = ({ results }) => {
               }, {})
             ),
             marker: {
-              colors: ['#6366f1', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b'],
+              colors: ['#0ea5e9', '#06b6d4', '#8b5cf6', '#10b981', '#f59e0b'],
               line: {
                 color: 'rgba(255, 255, 255, 0.2)',
                 width: 2
@@ -127,12 +129,12 @@ const Performance = ({ results }) => {
         layout={{
           title: {
             text: "Compression Methods Used",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
           legend: {
             bgcolor: 'rgba(0, 0, 0, 0.3)',
             bordercolor: 'rgba(255, 255, 255, 0.1)',
@@ -163,26 +165,26 @@ const Performance = ({ results }) => {
             y: totalTimes,
             type: "box",
             boxmean: "sd",
-            marker: { color: "#6366f1" },
+            marker: { color: "#0ea5e9" },
             name: "Load Times",
-            line: { color: '#8b5cf6' },
-            fillcolor: 'rgba(99, 102, 241, 0.5)',
+            line: { color: '#06b6d4' },
+            fillcolor: 'rgba(14, 165, 233, 0.3)',
           },
         ]}
         layout={{
           title: {
             text: "Load Time Spread (ms)",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           yaxis: {
             title: "Time (ms)",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
         }}
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}

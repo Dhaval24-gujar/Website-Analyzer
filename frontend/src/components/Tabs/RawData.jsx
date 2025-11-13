@@ -38,9 +38,9 @@ const RawData = ({ results }) => {
 const generatePDF = async () => {
   const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
 
-  // 🎨 Theme colors
-  const primary = [102, 126, 234];
-  const accent = [118, 75, 162];
+  // 🎨 Theme colors - Monochrome Black & White
+  const primary = [26, 26, 26]; // #1a1a1a
+  const accent = [85, 85, 85]; // #555555
 
   // 🧭 Header
   doc.setFillColor(primary[0], primary[1], primary[2]);
@@ -81,14 +81,42 @@ const generatePDF = async () => {
   // 📊 Embed Overview Chart
   const overviewEl = document.querySelector("#overview-chart");
   if (overviewEl) {
-    const img = overviewEl.querySelector("canvas")?.toDataURL("image/png");
-    if (img) doc.addImage(img, "PNG", 40, doc.lastAutoTable.finalY + 30, 500, 250);
+    const canvas = overviewEl.querySelector("canvas");
+    if (canvas) {
+      const img = canvas.toDataURL("image/png");
+      let startY = doc.lastAutoTable.finalY + 30;
+      // Check if we need a new page
+      if (startY + 250 > doc.internal.pageSize.height - 40) {
+        doc.addPage();
+        startY = 40;
+      }
+      doc.addImage(img, "PNG", 40, startY, 500, 250);
+    }
   }
 
   // 🔒 Security
   addSectionHeader(doc, "Security Insights", accent);
+
+  // 📊 Embed Security Chart
+  let securityChartAdded = false;
+  const securityEl = document.querySelector("#security-chart");
+  if (securityEl) {
+    const canvas = securityEl.querySelector("canvas");
+    if (canvas) {
+      const img = canvas.toDataURL("image/png");
+      let startY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 30 : 200;
+      // Check if we need a new page
+      if (startY + 250 > doc.internal.pageSize.height - 40) {
+        doc.addPage();
+        startY = 40;
+      }
+      doc.addImage(img, "PNG", 40, startY, 500, 250);
+      securityChartAdded = true;
+    }
+  }
+
   doc.autoTable({
-    startY: doc.lastAutoTable.finalY + 10,
+    startY: securityChartAdded ? (doc.lastAutoTable ? doc.lastAutoTable.finalY + 290 : 330) : (doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 200),
     head: [["Website", "SSL Score", "Headers Score", "TLS Version", "Compression"]],
     body: results.map((r) => [
       short(r.url),
@@ -123,14 +151,42 @@ const generatePDF = async () => {
   // 📈 Embed Performance Chart
   const perfEl = document.querySelector("#performance-chart");
   if (perfEl) {
-    const img = perfEl.querySelector("canvas")?.toDataURL("image/png");
-    if (img) doc.addImage(img, "PNG", 40, doc.lastAutoTable.finalY + 30, 500, 250);
+    const canvas = perfEl.querySelector("canvas");
+    if (canvas) {
+      const img = canvas.toDataURL("image/png");
+      let startY = doc.lastAutoTable.finalY + 30;
+      // Check if we need a new page
+      if (startY + 250 > doc.internal.pageSize.height - 40) {
+        doc.addPage();
+        startY = 40;
+      }
+      doc.addImage(img, "PNG", 40, startY, 500, 250);
+    }
   }
 
   // 🌐 Network
   addSectionHeader(doc, "Network Overview", accent);
+
+  // 📊 Embed Network Chart
+  let networkChartAdded = false;
+  const networkEl = document.querySelector("#network-chart");
+  if (networkEl) {
+    const canvas = networkEl.querySelector("canvas");
+    if (canvas) {
+      const img = canvas.toDataURL("image/png");
+      let startY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 30 : 200;
+      // Check if we need a new page
+      if (startY + 250 > doc.internal.pageSize.height - 40) {
+        doc.addPage();
+        startY = 40;
+      }
+      doc.addImage(img, "PNG", 40, startY, 500, 250);
+      networkChartAdded = true;
+    }
+  }
+
   doc.autoTable({
-    startY: doc.lastAutoTable.finalY + 10,
+    startY: networkChartAdded ? (doc.lastAutoTable ? doc.lastAutoTable.finalY + 290 : 330) : (doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 200),
     head: [["Website", "IP", "CDN Provider", "Server Location"]],
     body: results.map((r) => [
       short(r.url),
@@ -273,9 +329,11 @@ const generatePDF = async () => {
             py: 1.5,
             fontSize: '15px',
             fontWeight: 600,
-            background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+            background: '#1a1a1a',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             '&:hover': {
-              background: 'linear-gradient(135deg, #db2777 0%, #be185d 100%)',
+              background: '#2a2a2a',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
             }
           }}
         >

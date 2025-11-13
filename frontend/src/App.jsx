@@ -54,7 +54,8 @@ const App = () => {
                 fontWeight: 800,
                 fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
                 mb: 2,
-                textShadow: '0 4px 20px rgba(99, 102, 241, 0.4)',
+                color: '#ffffff',
+                textShadow: '0 4px 20px rgba(255, 255, 255, 0.1)',
               }}
             >
               🚀 Advanced Website Performance Analyzer
@@ -64,7 +65,7 @@ const App = () => {
               sx={{
                 mb: 4,
                 fontSize: { xs: '1rem', sm: '1.1rem' },
-                color: 'rgba(255, 255, 255, 0.8)',
+                color: 'rgba(255, 255, 255, 0.7)',
                 fontWeight: 400,
                 maxWidth: '700px',
                 margin: '0 auto',
@@ -89,7 +90,7 @@ const App = () => {
                 p: 4,
                 background: 'rgba(255, 255, 255, 0.05)',
                 borderRadius: '20px',
-                border: '1px solid rgba(139, 92, 246, 0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 backdropFilter: 'blur(10px)',
               }}
             >
@@ -97,7 +98,7 @@ const App = () => {
                 size={60}
                 thickness={4}
                 sx={{
-                  color: '#8b5cf6',
+                  color: '#ffffff',
                   mb: 3,
                 }}
               />
@@ -105,7 +106,7 @@ const App = () => {
                 sx={{
                   fontSize: '1.2rem',
                   fontWeight: 600,
-                  color: '#e0e7ff',
+                  color: '#e5e5e5',
                   mb: 1,
                 }}
               >

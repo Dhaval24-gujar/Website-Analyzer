@@ -29,13 +29,13 @@ const URLInput = ({ onAnalyze, loading }) => {
       sx={{
         p: 4,
         mb: 4,
-        background: 'rgba(255, 255, 255, 0.08)',
+        background: 'rgba(255, 255, 255, 0.05)',
         backdropFilter: 'blur(20px)',
         border: '1px solid rgba(255, 255, 255, 0.1)',
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: '0 12px 40px rgba(139, 92, 246, 0.3)',
+          boxShadow: '0 12px 40px rgba(255, 255, 255, 0.1)',
         }
       }}
     >
@@ -44,10 +44,7 @@ const URLInput = ({ onAnalyze, loading }) => {
         sx={{
           mb: 3,
           fontWeight: 700,
-          background: 'linear-gradient(135deg, #fff 0%, #c7d2fe 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          color: '#ffffff',
         }}
       >
         🎯 Configure Analysis
@@ -102,7 +99,7 @@ const URLInput = ({ onAnalyze, loading }) => {
           }}
         >
           Resource Limit: <span style={{
-            color: '#8b5cf6',
+            color: '#ffffff',
             fontWeight: 700,
             fontSize: '18px'
           }}>{resourceLimit}</span>
@@ -139,13 +136,16 @@ const URLInput = ({ onAnalyze, loading }) => {
           fontWeight: 700,
           textTransform: 'none',
           background: loading
-            ? 'rgba(139, 92, 246, 0.5)'
-            : 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+            ? 'rgba(255, 255, 255, 0.1)'
+            : '#1a1a1a',
+          color: '#ffffff',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%)',
+            background: '#2a2a2a',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
           },
           '&:disabled': {
-            background: 'rgba(139, 92, 246, 0.3)',
+            background: 'rgba(255, 255, 255, 0.05)',
             color: 'rgba(255, 255, 255, 0.5)',
           }
         }}

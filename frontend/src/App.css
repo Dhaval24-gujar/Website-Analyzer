@@ -1,11 +1,11 @@
 /* ========================================
-   MODERN APP STYLES - 2024/2025 DESIGN
+   MONOCHROME APP STYLES - BLACK & WHITE
    ======================================== */
 
 /* Main App Container */
 .App {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+  background: #0a0a0a;
   background-attachment: fixed;
   color: #fff;
   padding: 32px 20px;
@@ -22,9 +22,9 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -40,29 +40,29 @@
 
 /* Paper Components - Glass-morphism */
 .MuiPaper-root {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border-radius: 20px !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .MuiPaper-root:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5) !important;
-  border-color: rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Cards - Enhanced Glass Effect */
 .MuiCard-root {
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-radius: 16px !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4) !important;
   transition: all 0.3s ease !important;
   overflow: hidden;
   position: relative;
@@ -74,16 +74,16 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .MuiCard-root:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.4) !important;
-  border-color: rgba(139, 92, 246, 0.4) !important;
+  box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .MuiCard-root:hover::before {
@@ -98,40 +98,38 @@
 /* Typography */
 .MuiTypography-h3 {
   font-weight: 800 !important;
-  background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  text-shadow: 0 2px 20px rgba(99, 102, 241, 0.3);
+  color: #ffffff !important;
+  text-shadow: 0 2px 20px rgba(255, 255, 255, 0.1);
   letter-spacing: -0.5px !important;
 }
 
 .MuiTypography-h5 {
   font-weight: 700 !important;
-  color: #e0e7ff !important;
+  color: #e5e5e5 !important;
   margin-bottom: 24px !important;
   letter-spacing: -0.3px !important;
 }
 
 .MuiTypography-h6 {
   font-weight: 600 !important;
-  color: #c7d2fe !important;
+  color: #cccccc !important;
   letter-spacing: -0.2px !important;
 }
 
-/* Buttons - Modern Gradient Style */
+/* Buttons - Monochrome Style */
 .MuiButton-contained {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  background: #1a1a1a !important;
   border-radius: 12px !important;
   padding: 12px 32px !important;
   font-weight: 600 !important;
   text-transform: none !important;
   font-size: 16px !important;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4) !important;
-  border: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
+  color: #ffffff !important;
 }
 
 .MuiButton-contained::before {
@@ -141,14 +139,15 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   transition: left 0.5s ease;
 }
 
 .MuiButton-contained:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.6) !important;
-  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%) !important;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2) !important;
+  background: #2a2a2a !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .MuiButton-contained:hover::before {
@@ -161,22 +160,22 @@
 
 
 .MuiButton-outlined {
-  border: 2px solid rgba(139, 92, 246, 0.5) !important;
-  color: #c7d2fe !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  color: #e5e5e5 !important;
   border-radius: 12px !important;
   padding: 10px 28px !important;
   font-weight: 600 !important;
   text-transform: none !important;
   font-size: 16px !important;
   transition: all 0.3s ease !important;
-  background: rgba(139, 92, 246, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 .MuiButton-outlined:hover {
-  border-color: #8b5cf6 !important;
-  background: rgba(139, 92, 246, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Text Fields */
@@ -196,7 +195,7 @@
 
 .MuiOutlinedInput-root.Mui-focused {
   background: rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
 }
 
 .MuiOutlinedInput-notchedOutline {
@@ -205,11 +204,11 @@
 }
 
 .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-  border-color: rgba(139, 92, 246, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #8b5cf6 !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
   border-width: 2px !important;
 }
 
@@ -219,7 +218,7 @@
 }
 
 .MuiInputLabel-root.Mui-focused {
-  color: #c7d2fe !important;
+  color: #e5e5e5 !important;
 }
 
 .MuiInputBase-input {
@@ -233,7 +232,7 @@
 }
 
 .MuiCheckbox-root.Mui-checked {
-  color: #8b5cf6 !important;
+  color: #ffffff !important;
 }
 
 .MuiFormControlLabel-label {
@@ -243,22 +242,22 @@
 
 /* Sliders */
 .MuiSlider-root {
-  color: #8b5cf6 !important;
+  color: #ffffff !important;
 }
 
 .MuiSlider-thumb {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4) !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3) !important;
   width: 20px !important;
   height: 20px !important;
 }
 
 .MuiSlider-thumb:hover {
-  box-shadow: 0 0 0 8px rgba(139, 92, 246, 0.16) !important;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1) !important;
 }
 
 .MuiSlider-track {
-  background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
+  background: #ffffff !important;
   border: none !important;
 }
 
@@ -268,7 +267,7 @@
 
 /* Circular Progress */
 .MuiCircularProgress-root {
-  color: #8b5cf6 !important;
+  color: #ffffff !important;
 }
 
 /* ========================================
@@ -309,8 +308,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+  height: 2px;
+  background: #ffffff;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -322,10 +321,10 @@
 }
 
 .react-tabs__tab--selected {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
   color: white !important;
-  border-color: rgba(139, 92, 246, 0.5) !important;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
 }
 
 
@@ -335,7 +334,7 @@
 
 .react-tabs__tab:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
 }
 
 .react-tabs__tab-panel {
@@ -353,16 +352,16 @@
 }
 
 .MuiTableHead-root {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .MuiTableHead-root .MuiTableCell-root {
-  color: #e0e7ff !important;
+  color: #e5e5e5 !important;
   font-weight: 700 !important;
   font-size: 14px !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 2px solid rgba(139, 92, 246, 0.3) !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
   padding: 16px !important;
 }
 
@@ -376,9 +375,9 @@
 }
 
 .MuiTableBody-root .MuiTableRow-root:hover {
-  background: rgba(139, 92, 246, 0.15) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
   transform: scale(1.01);
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1) !important;
 }
 
 .MuiTableCell-root {
@@ -407,12 +406,12 @@
 
 .MuiAccordion-root:hover {
   background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(139, 92, 246, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .MuiAccordion-root.Mui-expanded {
   margin: 12px 0 !important;
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
 
 .MuiAccordionSummary-root {

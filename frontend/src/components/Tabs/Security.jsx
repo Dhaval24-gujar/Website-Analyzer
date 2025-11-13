@@ -25,20 +25,21 @@ const Security = ({ results }) => {
       </Typography>
 
       {/* SSL Scores */}
-      <Typography
-        variant="h6"
-        sx={{
-          mt: 2,
-          mb: 3,
-          fontWeight: 700,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        SSL/TLS Security Scores
-      </Typography>
-      <Plot
+      <div id="security-chart">
+        <Typography
+          variant="h6"
+          sx={{
+            mt: 2,
+            mb: 3,
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          SSL/TLS Security Scores
+        </Typography>
+        <Plot
         data={[
           {
             x: urls,
@@ -56,27 +57,28 @@ const Security = ({ results }) => {
         layout={{
           title: {
             text: "SSL Security Scores (0–100)",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           xaxis: {
             title: "Website",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           yaxis: {
             title: "Score",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
             range: [0, 105],
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
         }}
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}
       />
+      </div>
 
       {/* SSL breakdowns */}
       <Typography
@@ -97,7 +99,7 @@ const Security = ({ results }) => {
           <Accordion key={i}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography sx={{ fontWeight: 600 }}>
-                {r.url} — Score: <span style={{ color: '#8b5cf6', fontWeight: 700 }}>{r.ssl_score}/100</span>
+                {r.url} — Score: <span style={{ color: '#ffffff', fontWeight: 700 }}>{r.ssl_score}/100</span>
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -143,22 +145,22 @@ const Security = ({ results }) => {
         layout={{
           title: {
             text: "Security Headers (0–100)",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           xaxis: {
             title: "Website",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           yaxis: {
             title: "Score",
-            color: '#c7d2fe',
+            color: '#cccccc',
             gridcolor: 'rgba(255, 255, 255, 0.1)',
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
         }}
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}

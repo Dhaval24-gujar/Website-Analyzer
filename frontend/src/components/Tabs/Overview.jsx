@@ -36,7 +36,7 @@ const Overview = ({ results }) => {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%)',
+            background: 'rgba(255, 255, 255, 0.05)',
             position: 'relative',
             overflow: 'visible',
           }}>
@@ -45,13 +45,14 @@ const Overview = ({ results }) => {
                 width: 56,
                 height: 56,
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                background: '#2a2a2a',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
                 fontSize: '28px',
-                boxShadow: '0 4px 16px rgba(99, 102, 241, 0.4)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
               }}>
                 ⚡
               </Box>
@@ -66,7 +67,7 @@ const Overview = ({ results }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%)',
+            background: 'rgba(255, 255, 255, 0.05)',
             position: 'relative',
             overflow: 'visible',
           }}>
@@ -75,13 +76,14 @@ const Overview = ({ results }) => {
                 width: 56,
                 height: 56,
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #10b981, #059669)',
+                background: '#333333',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
                 fontSize: '28px',
-                boxShadow: '0 4px 16px rgba(16, 185, 129, 0.4)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
               }}>
                 🔒
               </Box>
@@ -96,7 +98,7 @@ const Overview = ({ results }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.15) 100%)',
+            background: 'rgba(255, 255, 255, 0.05)',
             position: 'relative',
             overflow: 'visible',
           }}>
@@ -105,13 +107,14 @@ const Overview = ({ results }) => {
                 width: 56,
                 height: 56,
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                background: '#444444',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
                 fontSize: '28px',
-                boxShadow: '0 4px 16px rgba(245, 158, 11, 0.4)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
               }}>
                 🛡️
               </Box>
@@ -126,7 +129,7 @@ const Overview = ({ results }) => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <Card sx={{
-            background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(219, 39, 119, 0.15) 100%)',
+            background: 'rgba(255, 255, 255, 0.05)',
             position: 'relative',
             overflow: 'visible',
           }}>
@@ -135,13 +138,14 @@ const Overview = ({ results }) => {
                 width: 56,
                 height: 56,
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #ec4899, #db2777)',
+                background: '#555555',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: '0 auto 16px',
                 fontSize: '28px',
-                boxShadow: '0 4px 16px rgba(236, 72, 153, 0.4)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
               }}>
                 🚀
               </Box>
@@ -157,7 +161,7 @@ const Overview = ({ results }) => {
       </Grid>
 
       {/* Response time breakdown */}
-      <Box sx={{ mt: 5 }}>
+      <Box id="overview-chart" sx={{ mt: 5 }}>
         <Typography
           variant="h6"
           sx={{
@@ -177,21 +181,21 @@ const Overview = ({ results }) => {
               y: results.map((r) => r.dns || 0),
               type: "bar",
               name: "DNS",
-              marker: { color: '#6366f1' }
+              marker: { color: '#0ea5e9' }
             },
             {
               x: urls,
               y: results.map((r) => r.tcp || 0),
               type: "bar",
               name: "TCP",
-              marker: { color: '#8b5cf6' }
+              marker: { color: '#06b6d4' }
             },
             {
               x: urls,
               y: results.map((r) => r.ssl || 0),
               type: "bar",
               name: "SSL",
-              marker: { color: '#ec4899' }
+              marker: { color: '#8b5cf6' }
             },
             {
               x: urls,
@@ -205,22 +209,22 @@ const Overview = ({ results }) => {
             barmode: "stack",
             title: {
               text: "Request Timeline Breakdown (ms)",
-              font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+              font: { color: '#e5e5e5', size: 16, family: 'Inter' }
             },
             xaxis: {
               title: "Website",
-              color: '#c7d2fe',
+              color: '#cccccc',
               gridcolor: 'rgba(255, 255, 255, 0.1)',
             },
             yaxis: {
               title: "Time (ms)",
-              color: '#c7d2fe',
+              color: '#cccccc',
               gridcolor: 'rgba(255, 255, 255, 0.1)',
             },
             height: 400,
             paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
             plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-            font: { color: '#c7d2fe', family: 'Inter' },
+            font: { color: '#cccccc', family: 'Inter' },
             legend: {
               bgcolor: 'rgba(0, 0, 0, 0.3)',
               bordercolor: 'rgba(255, 255, 255, 0.1)',
@@ -253,7 +257,7 @@ const Overview = ({ results }) => {
               y: results.map((r) => r.size_kb || 0),
               name: "Total Size",
               type: "bar",
-              marker: { color: '#6366f1' }
+              marker: { color: '#0ea5e9' }
             },
             {
               x: urls,
@@ -267,36 +271,36 @@ const Overview = ({ results }) => {
               y: results.map((r) => r.scripts_kb || 0),
               name: "Scripts",
               type: "bar",
-              marker: { color: '#ec4899' }
+              marker: { color: '#f59e0b' }
             },
             {
               x: urls,
               y: results.map((r) => r.css_kb || 0),
               name: "CSS",
               type: "bar",
-              marker: { color: '#10b981' }
+              marker: { color: '#ec4899' }
             },
           ]}
           layout={{
             barmode: "group",
             title: {
               text: "Resource Breakdown (KB)",
-              font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+              font: { color: '#e5e5e5', size: 16, family: 'Inter' }
             },
             xaxis: {
               title: "Website",
-              color: '#c7d2fe',
+              color: '#cccccc',
               gridcolor: 'rgba(255, 255, 255, 0.1)',
             },
             yaxis: {
               title: "Size (KB)",
-              color: '#c7d2fe',
+              color: '#cccccc',
               gridcolor: 'rgba(255, 255, 255, 0.1)',
             },
             height: 400,
             paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
             plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-            font: { color: '#c7d2fe', family: 'Inter' },
+            font: { color: '#cccccc', family: 'Inter' },
             legend: {
               bgcolor: 'rgba(0, 0, 0, 0.3)',
               bordercolor: 'rgba(255, 255, 255, 0.1)',

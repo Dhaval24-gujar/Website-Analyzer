@@ -28,27 +28,28 @@ const Network = ({ results }) => {
       </Typography>
 
       {/* CDN Provider Chart */}
-      <Typography
-        variant="h6"
-        sx={{
-          mt: 2,
-          mb: 3,
-          fontWeight: 700,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        🚀 CDN Provider Distribution
-      </Typography>
-      <Plot
+      <div id="network-chart">
+        <Typography
+          variant="h6"
+          sx={{
+            mt: 2,
+            mb: 3,
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+          }}
+        >
+          🚀 CDN Provider Distribution
+        </Typography>
+        <Plot
         data={[
           {
             type: "pie",
             labels: Object.keys(cdnCounts),
             values: Object.values(cdnCounts),
             marker: {
-              colors: ['#6366f1', '#8b5cf6', '#ec4899', '#10b981', '#f59e0b', '#ef4444'],
+              colors: ['#0ea5e9', '#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899'],
               line: {
                 color: 'rgba(255, 255, 255, 0.2)',
                 width: 2
@@ -64,12 +65,12 @@ const Network = ({ results }) => {
         layout={{
           title: {
             text: "CDN Providers",
-            font: { color: '#e0e7ff', size: 16, family: 'Inter' }
+            font: { color: '#e5e5e5', size: 16, family: 'Inter' }
           },
           height: 350,
           paper_bgcolor: 'rgba(255, 255, 255, 0.03)',
           plot_bgcolor: 'rgba(0, 0, 0, 0.2)',
-          font: { color: '#c7d2fe', family: 'Inter' },
+          font: { color: '#cccccc', family: 'Inter' },
           legend: {
             bgcolor: 'rgba(0, 0, 0, 0.3)',
             bordercolor: 'rgba(255, 255, 255, 0.1)',
@@ -79,6 +80,7 @@ const Network = ({ results }) => {
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}
       />
+      </div>
 
       {/* Server Locations */}
       <Typography
@@ -110,7 +112,7 @@ const Network = ({ results }) => {
           {results.map((r, i) => (
             <TableRow key={i}>
               <TableCell sx={{ fontWeight: 500 }}>{r.url}</TableCell>
-              <TableCell sx={{ fontFamily: 'monospace', color: '#8b5cf6' }}>{r.ip || "N/A"}</TableCell>
+              <TableCell sx={{ fontFamily: 'monospace', color: '#ffffff' }}>{r.ip || "N/A"}</TableCell>
               <TableCell>{r.server_location || "Unknown"}</TableCell>
             </TableRow>
           ))}
