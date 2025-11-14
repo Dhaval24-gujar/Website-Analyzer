@@ -1,7 +1,17 @@
 import React from "react";
 import Plot from "react-plotly.js";
-import { Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Box
+} from "@mui/material";
 
 const Security = ({ results }) => {
   if (!results?.length) return <p>No data available.</p>;
@@ -80,7 +90,7 @@ const Security = ({ results }) => {
       />
       </div>
 
-      {/* SSL breakdowns */}
+      {/* SSL Score Breakdown Table */}
       <Typography
         variant="h6"
         sx={{
@@ -92,26 +102,124 @@ const Security = ({ results }) => {
           gap: 1,
         }}
       >
-        🔍 Detailed SSL Breakdown
+        🔍 SSL Score Breakdown
       </Typography>
-      {results.map((r, i) =>
-        r.ssl_score_breakdown ? (
-          <Accordion key={i}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography sx={{ fontWeight: 600 }}>
-                {r.url} — Score: <span style={{ color: '#ffffff', fontWeight: 700 }}>{r.ssl_score}/100</span>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {Object.entries(r.ssl_score_breakdown).map(([k, v]) => (
-                <Typography key={k} sx={{ mb: 1, color: 'rgba(255, 255, 255, 0.8)' }}>
-                  • <strong>{k}:</strong> {v}
-                </Typography>
-              ))}
-            </AccordionDetails>
-          </Accordion>
-        ) : null
-      )}
+      <TableContainer
+        component={Paper}
+        sx={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow sx={{ background: 'rgba(255, 255, 255, 0.08)' }}>
+              <TableCell sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Website</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Total Score</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Valid Certificate</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Certificate Expiry</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>TLS Version</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Cipher Strength</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {results.map((r, i) => {
+              const breakdown = r.ssl_score_breakdown || {};
+              const totalScore = r.ssl_score || 0;
+
+              // Extract individual scores
+              const validCert = breakdown["Valid Certificate"] || 0;
+              const certExpiry = Object.entries(breakdown).find(([k]) => k.includes("Certificate Expiry"))?.[1] || 0;
+              const tlsVersion = Object.entries(breakdown).find(([k]) => k.includes("TLS Version"))?.[1] || 0;
+              const cipherStrength = Object.entries(breakdown).find(([k]) => k.includes("Cipher Strength"))?.[1] || 0;
+
+              // Get score color
+              const getScoreColor = (score, max) => {
+                const percentage = (score / max) * 100;
+                if (percentage >= 80) return '#10b981';
+                if (percentage >= 60) return '#f59e0b';
+                return '#ef4444';
+              };
+
+              return (
+                <TableRow
+                  key={i}
+                  sx={{
+                    '&:hover': { background: 'rgba(255, 255, 255, 0.05)' },
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                  }}
+                >
+                  <TableCell sx={{ color: '#cccccc', fontSize: '13px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {r.url.replace('https://', '').replace('http://', '').replace('www.', '')}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${totalScore}/100`}
+                      sx={{
+                        background: getScoreColor(totalScore, 100),
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        fontSize: '13px',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${validCert}/40`}
+                      size="small"
+                      sx={{
+                        background: getScoreColor(validCert, 40),
+                        color: '#ffffff',
+                        fontWeight: 600,
+                        fontSize: '12px',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${certExpiry}/30`}
+                      size="small"
+                      sx={{
+                        background: getScoreColor(certExpiry, 30),
+                        color: '#ffffff',
+                        fontWeight: 600,
+                        fontSize: '12px',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${tlsVersion}/20`}
+                      size="small"
+                      sx={{
+                        background: getScoreColor(tlsVersion, 20),
+                        color: '#ffffff',
+                        fontWeight: 600,
+                        fontSize: '12px',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${cipherStrength}/10`}
+                      size="small"
+                      sx={{
+                        background: getScoreColor(cipherStrength, 10),
+                        color: '#ffffff',
+                        fontWeight: 600,
+                        fontSize: '12px',
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       {/* Security Headers */}
       <Typography
@@ -165,6 +273,126 @@ const Security = ({ results }) => {
         style={{ width: "100%" }}
         config={{ displayModeBar: false }}
       />
+
+      {/* Security Headers Breakdown Table */}
+      <Typography
+        variant="h6"
+        sx={{
+          mt: 5,
+          mb: 3,
+          fontWeight: 700,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        🛡️ Security Headers Breakdown
+      </Typography>
+      <TableContainer
+        component={Paper}
+        sx={{
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+        }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow sx={{ background: 'rgba(255, 255, 255, 0.08)' }}>
+              <TableCell sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Website</TableCell>
+              <TableCell align="center" sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Total Score</TableCell>
+              <TableCell sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Present Headers</TableCell>
+              <TableCell sx={{ color: '#e5e5e5', fontWeight: 700, fontSize: '14px' }}>Missing Headers</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {results.map((r, i) => {
+              const presentHeaders = r.security_headers_present || {};
+              const missingHeaders = r.security_headers_missing || [];
+              const totalScore = r.security_headers_score || 0;
+
+              const getScoreColor = (score) => {
+                if (score >= 70) return '#10b981';
+                if (score >= 50) return '#f59e0b';
+                return '#ef4444';
+              };
+
+              return (
+                <TableRow
+                  key={i}
+                  sx={{
+                    '&:hover': { background: 'rgba(255, 255, 255, 0.05)' },
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                  }}
+                >
+                  <TableCell sx={{ color: '#cccccc', fontSize: '13px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {r.url.replace('https://', '').replace('http://', '').replace('www.', '')}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Chip
+                      label={`${totalScore}/100`}
+                      sx={{
+                        background: getScoreColor(totalScore),
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        fontSize: '13px',
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {Object.keys(presentHeaders).length > 0 ? (
+                        Object.keys(presentHeaders).map((header, idx) => (
+                          <Chip
+                            key={idx}
+                            label={header}
+                            size="small"
+                            sx={{
+                              background: '#10b981',
+                              color: '#ffffff',
+                              fontSize: '11px',
+                              height: '24px',
+                            }}
+                          />
+                        ))
+                      ) : (
+                        <Typography sx={{ color: '#999999', fontSize: '12px', fontStyle: 'italic' }}>
+                          None
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {missingHeaders.length > 0 ? (
+                        missingHeaders.map((header, idx) => (
+                          <Chip
+                            key={idx}
+                            label={header}
+                            size="small"
+                            sx={{
+                              background: '#ef4444',
+                              color: '#ffffff',
+                              fontSize: '11px',
+                              height: '24px',
+                            }}
+                          />
+                        ))
+                      ) : (
+                        <Typography sx={{ color: '#10b981', fontSize: '12px', fontStyle: 'italic' }}>
+                          All present!
+                        </Typography>
+                      )}
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

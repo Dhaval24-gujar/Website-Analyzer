@@ -115,19 +115,73 @@ const generatePDF = async () => {
     }
   }
 
+  // SSL Score Breakdown Table
+  doc.setFontSize(12);
+  doc.setTextColor(accent[0], accent[1], accent[2]);
+  let sslBreakdownY = securityChartAdded ? (doc.lastAutoTable ? doc.lastAutoTable.finalY + 290 : 330) : (doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 200);
+  if (sslBreakdownY > 700) {
+    doc.addPage();
+    sslBreakdownY = 40;
+  }
+  doc.text("SSL Score Breakdown", 40, sslBreakdownY);
+  doc.setTextColor(60);
+
   doc.autoTable({
-    startY: securityChartAdded ? (doc.lastAutoTable ? doc.lastAutoTable.finalY + 290 : 330) : (doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 200),
-    head: [["Website", "SSL Score", "Headers Score", "TLS Version", "Compression"]],
-    body: results.map((r) => [
-      short(r.url),
-      r.ssl_score || "-",
-      r.security_headers_score || "-",
-      r.ssl_version || "-",
-      r.compression_type || "-",
-    ]),
+    startY: sslBreakdownY + 10,
+    head: [["Website", "Total", "Valid Cert", "Cert Expiry", "TLS Version", "Cipher"]],
+    body: results.map((r) => {
+      const breakdown = r.ssl_score_breakdown || {};
+      const validCert = breakdown["Valid Certificate"] || 0;
+      const certExpiry = Object.entries(breakdown).find(([k]) => k.includes("Certificate Expiry"))?.[1] || 0;
+      const tlsVersion = Object.entries(breakdown).find(([k]) => k.includes("TLS Version"))?.[1] || 0;
+      const cipherStrength = Object.entries(breakdown).find(([k]) => k.includes("Cipher Strength"))?.[1] || 0;
+
+      return [
+        short(r.url),
+        `${r.ssl_score || 0}/100`,
+        `${validCert}/40`,
+        `${certExpiry}/30`,
+        `${tlsVersion}/20`,
+        `${cipherStrength}/10`
+      ];
+    }),
     styles: { fontSize: 9, cellPadding: 4 },
     headStyles: { fillColor: primary },
     margin: { left: 40, right: 40 },
+  });
+
+  // Security Headers Breakdown Table
+  doc.setFontSize(12);
+  doc.setTextColor(accent[0], accent[1], accent[2]);
+  let headersBreakdownY = doc.lastAutoTable.finalY + 30;
+  if (headersBreakdownY > 700) {
+    doc.addPage();
+    headersBreakdownY = 40;
+  }
+  doc.text("Security Headers Breakdown", 40, headersBreakdownY);
+  doc.setTextColor(60);
+
+  doc.autoTable({
+    startY: headersBreakdownY + 10,
+    head: [["Website", "Score", "Present Headers", "Missing Headers"]],
+    body: results.map((r) => {
+      const presentHeaders = r.security_headers_present || {};
+      const missingHeaders = r.security_headers_missing || [];
+
+      return [
+        short(r.url),
+        `${r.security_headers_score || 0}/100`,
+        Object.keys(presentHeaders).length > 0 ? Object.keys(presentHeaders).join(", ") : "None",
+        missingHeaders.length > 0 ? missingHeaders.join(", ") : "All present"
+      ];
+    }),
+    styles: { fontSize: 8, cellPadding: 4 },
+    headStyles: { fillColor: primary },
+    margin: { left: 40, right: 40 },
+    columnStyles: {
+      2: { cellWidth: 120 },
+      3: { cellWidth: 120 }
+    }
   });
 
   // ⚡ Performance
