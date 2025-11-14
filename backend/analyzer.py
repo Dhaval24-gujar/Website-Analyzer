@@ -4,20 +4,24 @@ import ssl
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+
 import pycurl
 import requests
 import tldextract
 from bs4 import BeautifulSoup
 from fpdf import FPDF
+
 # Try to import optional libraries
 try:
     import pycurl
+
     has_pycurl = True
 except ImportError:
     has_pycurl = False
 
 try:
     import dns.resolver
+
     has_dnspython = True
 except ImportError:
     has_dnspython = False
@@ -26,11 +30,12 @@ except ImportError:
 # New Feature Functions
 # -----------------------
 
+
 def detect_http_version(response):
     """Detect HTTP protocol version"""
     try:
         version_map = {10: "HTTP/1.0", 11: "HTTP/1.1", 20: "HTTP/2.0"}
-        if hasattr(response, 'raw') and hasattr(response.raw, 'version'):
+        if hasattr(response, "raw") and hasattr(response.raw, "version"):
             return version_map.get(response.raw.version, "Unknown")
     except:
         pass
@@ -43,30 +48,30 @@ def detect_cdn(headers, hostname):
 
     # Header-based detection
     cdn_indicators = {
-        'cf-ray': 'Cloudflare',
-        'x-amz-cf-id': 'AWS CloudFront',
-        'x-cache': 'Fastly/Varnish',
-        'x-akamai-transformed': 'Akamai',
-        'x-cdn': 'Generic CDN',
-        'via': 'Proxy/CDN'
+        "cf-ray": "Cloudflare",
+        "x-amz-cf-id": "AWS CloudFront",
+        "x-cache": "Fastly/Varnish",
+        "x-akamai-transformed": "Akamai",
+        "x-cdn": "Generic CDN",
+        "via": "Proxy/CDN",
     }
 
     for header, cdn in cdn_indicators.items():
         if header in headers_lower:
-            if header == 'via' and 'cloudflare' in headers_lower[header].lower():
-                return 'Cloudflare'
-            elif header == 'x-cache':
-                if 'cloudfront' in headers_lower[header].lower():
-                    return 'AWS CloudFront'
+            if header == "via" and "cloudflare" in headers_lower[header].lower():
+                return "Cloudflare"
+            elif header == "x-cache":
+                if "cloudfront" in headers_lower[header].lower():
+                    return "AWS CloudFront"
                 return cdn
             return cdn
 
     # Server header detection
-    server = headers_lower.get('server', '').lower()
-    if 'cloudflare' in server:
-        return 'Cloudflare'
-    elif 'akamai' in server:
-        return 'Akamai'
+    server = headers_lower.get("server", "").lower()
+    if "cloudflare" in server:
+        return "Cloudflare"
+    elif "akamai" in server:
+        return "Akamai"
 
     return "None detected"
 
@@ -74,12 +79,12 @@ def detect_cdn(headers, hostname):
 def check_compression(url):
     """Check compression type and effectiveness"""
     try:
-        headers = {'Accept-Encoding': 'gzip, deflate, br'}
+        headers = {"Accept-Encoding": "gzip, deflate, br"}
         resp = requests.get(url, headers=headers, timeout=10, stream=True)
-        encoding = resp.headers.get('Content-Encoding', 'none')
-        return encoding if encoding != 'none' else 'None'
-    except:
-        return 'Unknown'
+        encoding = resp.headers.get("Content-Encoding", "none")
+        return encoding if encoding != "none" else "None"
+    except Exception as e:
+        return "Unknown"
 
 
 def advanced_dns_lookup(hostname):
@@ -88,9 +93,9 @@ def advanced_dns_lookup(hostname):
         return None
 
     resolvers = {
-        '8.8.8.8': 'Google DNS',
-        '1.1.1.1': 'Cloudflare DNS',
-        '208.67.222.222': 'OpenDNS'
+        "8.8.8.8": "Google DNS",
+        "1.1.1.1": "Cloudflare DNS",
+        "208.67.222.222": "OpenDNS",
     }
     results = {}
 
@@ -101,7 +106,7 @@ def advanced_dns_lookup(hostname):
         resolver.lifetime = 5
         start = time.time()
         try:
-            resolver.resolve(hostname, 'A')
+            resolver.resolve(hostname, "A")
             results[name] = round((time.time() - start) * 1000, 2)
         except:
             results[name] = None
@@ -114,13 +119,13 @@ def security_headers_score(headers):
     headers_lower = {k.lower(): v for k, v in headers.items()}
 
     security_checks = {
-        'strict-transport-security': 20,
-        'content-security-policy': 20,
-        'x-frame-options': 15,
-        'x-content-type-options': 15,
-        'referrer-policy': 10,
-        'permissions-policy': 10,
-        'x-xss-protection': 10
+        "strict-transport-security": 20,
+        "content-security-policy": 20,
+        "x-frame-options": 15,
+        "x-content-type-options": 15,
+        "referrer-policy": 10,
+        "permissions-policy": 10,
+        "x-xss-protection": 10,
     }
 
     score = 0
@@ -134,11 +139,7 @@ def security_headers_score(headers):
         else:
             missing.append(header)
 
-    return {
-        'score': score,
-        'present': present,
-        'missing': missing
-    }
+    return {"score": score, "present": present, "missing": missing}
 
 
 def check_connection_reuse(url):
@@ -153,9 +154,9 @@ def check_connection_reuse(url):
 
         benefit = round(times[0] - sum(times[1:]) / 2, 2)
         return {
-            'first_request': round(times[0], 2),
-            'subsequent_avg': round(sum(times[1:]) / 2, 2),
-            'benefit': benefit if benefit > 0 else 0
+            "first_request": round(times[0], 2),
+            "subsequent_avg": round(sum(times[1:]) / 2, 2),
+            "benefit": benefit if benefit > 0 else 0,
         }
     except:
         return None
@@ -164,9 +165,9 @@ def check_connection_reuse(url):
 def get_server_location(ip):
     """Get geographic location of server"""
     try:
-        resp = requests.get(f'http://ip-api.com/json/{ip}', timeout=5)
+        resp = requests.get(f"http://ip-api.com/json/{ip}", timeout=5)
         data = resp.json()
-        if data.get('status') == 'success':
+        if data.get("status") == "success":
             return f"{data.get('city', 'Unknown')}, {data.get('country', 'Unknown')}"
     except:
         pass
@@ -177,6 +178,7 @@ def get_server_location(ip):
 # Original Functions (Enhanced)
 # -----------------------
 
+
 def check_ssl_security(hostname, port=443, timeout=10):
     """Check SSL/TLS certificate details and calculate a security score"""
     result = {
@@ -186,7 +188,7 @@ def check_ssl_security(hostname, port=443, timeout=10):
         "ssl_version": None,
         "ssl_cipher": None,
         "ssl_score": 0,
-        "ssl_score_breakdown": {}
+        "ssl_score_breakdown": {},
     }
 
     try:
@@ -198,16 +200,20 @@ def check_ssl_security(hostname, port=443, timeout=10):
                 version = ssock.version()
 
                 if cert:
-                    not_after = cert.get('notAfter')
+                    not_after = cert.get("notAfter")
                     if not_after:
-                        expiry_date = datetime.strptime(not_after, '%b %d %H:%M:%S %Y %Z')
+                        expiry_date = datetime.strptime(
+                            not_after, "%b %d %H:%M:%S %Y %Z"
+                        )
                         days_remaining = (expiry_date - datetime.now()).days
                         result["ssl_days_remaining"] = days_remaining
                         result["ssl_valid"] = 1 if days_remaining > 0 else 0
 
-                    issuer = cert.get('issuer')
+                    issuer = cert.get("issuer")
                     if issuer:
-                        issuer_cn = dict(x[0] for x in issuer).get('commonName', 'Unknown')
+                        issuer_cn = dict(x[0] for x in issuer).get(
+                            "commonName", "Unknown"
+                        )
                         result["ssl_issuer"] = issuer_cn[:50]
 
                 result["ssl_version"] = version
@@ -239,13 +245,13 @@ def check_ssl_security(hostname, port=443, timeout=10):
                     breakdown["Certificate Expiry"] = 0
 
                 if version:
-                    if version in ['TLSv1.3']:
+                    if version in ["TLSv1.3"]:
                         score += 20
                         breakdown["TLS Version (1.3)"] = 20
-                    elif version in ['TLSv1.2']:
+                    elif version in ["TLSv1.2"]:
                         score += 15
                         breakdown["TLS Version (1.2)"] = 15
-                    elif version in ['TLSv1.1']:
+                    elif version in ["TLSv1.1"]:
                         score += 5
                         breakdown["TLS Version (1.1)"] = 5
                     else:
@@ -255,13 +261,17 @@ def check_ssl_security(hostname, port=443, timeout=10):
 
                 if cipher and cipher[0]:
                     cipher_name = cipher[0].upper()
-                    if 'AES_256' in cipher_name or 'AES256' in cipher_name or 'CHACHA20' in cipher_name:
+                    if (
+                        "AES_256" in cipher_name
+                        or "AES256" in cipher_name
+                        or "CHACHA20" in cipher_name
+                    ):
                         score += 10
                         breakdown["Cipher Strength (Strong)"] = 10
-                    elif 'AES_128' in cipher_name or 'AES128' in cipher_name:
+                    elif "AES_128" in cipher_name or "AES128" in cipher_name:
                         score += 7
                         breakdown["Cipher Strength (Good)"] = 7
-                    elif 'AES' in cipher_name:
+                    elif "AES" in cipher_name:
                         score += 5
                         breakdown["Cipher Strength (Moderate)"] = 5
                     else:
@@ -323,7 +333,7 @@ def measure_with_pycurl(url, timeout=30):
         "ttfb": round(starttransfer_time, 2),
         "total": round(total_time, 2),
         "status_code": http_code,
-        "size_kb": round(size_download, 2)
+        "size_kb": round(size_download, 2),
     }
 
 
@@ -354,7 +364,10 @@ def resource_breakdown(base_url, html_text, timeout=5, max_resources=30):
 
     imgs = [img.get("src") for img in soup.find_all("img") if img.get("src")]
     scripts = [s.get("src") for s in soup.find_all("script") if s.get("src")]
-    links = [l.get("href") for l in soup.find_all("link", rel=lambda x: x and 'stylesheet' in x)]
+    links = [
+        l.get("href")
+        for l in soup.find_all("link", rel=lambda x: x and "stylesheet" in x)
+    ]
 
     totals = {"images_kb": 0.0, "scripts_kb": 0.0, "css_kb": 0.0}
 
@@ -417,16 +430,34 @@ def resource_breakdown(base_url, html_text, timeout=5, max_resources=30):
 # -----------------------
 def analyze_site(url, fetch_resources=True, resource_limit=20, check_advanced=True):
     out = {
-        "url": url, "ip": None, "dns": None, "tcp": None, "ssl": None, "ttfb": None,
-        "total": None, "size_kb": None, "status_code": None,
-        "images_kb": None, "scripts_kb": None, "css_kb": None,
-        "ssl_score": None, "ssl_valid": None, "ssl_days_remaining": None,
-        "ssl_issuer": None, "ssl_version": None, "ssl_cipher": None,
+        "url": url,
+        "ip": None,
+        "dns": None,
+        "tcp": None,
+        "ssl": None,
+        "ttfb": None,
+        "total": None,
+        "size_kb": None,
+        "status_code": None,
+        "images_kb": None,
+        "scripts_kb": None,
+        "css_kb": None,
+        "ssl_score": None,
+        "ssl_valid": None,
+        "ssl_days_remaining": None,
+        "ssl_issuer": None,
+        "ssl_version": None,
+        "ssl_cipher": None,
         "ssl_score_breakdown": None,
-        "http_version": None, "cdn_provider": None, "compression_type": None,
-        "security_headers_score": None, "security_headers_present": None,
-        "security_headers_missing": None, "server_location": None,
-        "connection_reuse_benefit": None, "dns_breakdown": None
+        "http_version": None,
+        "cdn_provider": None,
+        "compression_type": None,
+        "security_headers_score": None,
+        "security_headers_present": None,
+        "security_headers_missing": None,
+        "server_location": None,
+        "connection_reuse_benefit": None,
+        "dns_breakdown": None,
     }
 
     if not url.startswith("http"):
@@ -493,21 +524,23 @@ def analyze_site(url, fetch_resources=True, resource_limit=20, check_advanced=Tr
             out["compression_type"] = check_compression(url)
 
             sec_headers = security_headers_score(response.headers)
-            out["security_headers_score"] = sec_headers['score']
-            out["security_headers_present"] = sec_headers['present']
-            out["security_headers_missing"] = sec_headers['missing']
+            out["security_headers_score"] = sec_headers["score"]
+            out["security_headers_present"] = sec_headers["present"]
+            out["security_headers_missing"] = sec_headers["missing"]
 
             if ip:
                 out["server_location"] = get_server_location(ip)
 
             conn_reuse = check_connection_reuse(url)
             if conn_reuse:
-                out["connection_reuse_benefit"] = conn_reuse['benefit']
+                out["connection_reuse_benefit"] = conn_reuse["benefit"]
 
         # Resource breakdown
         if fetch_resources:
             try:
-                breakdown = resource_breakdown(url, response.text, max_resources=resource_limit)
+                breakdown = resource_breakdown(
+                    url, response.text, max_resources=resource_limit
+                )
                 out.update(breakdown)
             except Exception:
                 pass
@@ -534,17 +567,36 @@ def export_pdf(records, filename="report.pdf"):
         pdf.set_font("Arial", "B", 12)
         pdf.cell(0, 6, f"URL: {r.get('url')}", ln=True)
         pdf.set_font("Arial", size=9)
-        pdf.cell(0, 5,
-                 f"IP: {r.get('ip')}   Status: {r.get('status_code')}   Location: {r.get('server_location', 'N/A')}",
-                 ln=True)
-        pdf.cell(0, 5, f"DNS: {r.get('dns')} ms, TCP: {r.get('tcp')} ms, SSL: {r.get('ssl')} ms", ln=True)
-        pdf.cell(0, 5, f"TTFB: {r.get('ttfb')} ms, Total: {r.get('total')} ms, Size: {r.get('size_kb')} KB", ln=True)
-        pdf.cell(0, 5,
-                 f"HTTP: {r.get('http_version', 'N/A')}, CDN: {r.get('cdn_provider', 'N/A')}, Compression: {r.get('compression_type', 'N/A')}",
-                 ln=True)
-        pdf.cell(0, 5,
-                 f"SSL Score: {r.get('ssl_score')}/100, Security Headers: {r.get('security_headers_score', 0)}/100",
-                 ln=True)
+        pdf.cell(
+            0,
+            5,
+            f"IP: {r.get('ip')}   Status: {r.get('status_code')}   Location: {r.get('server_location', 'N/A')}",
+            ln=True,
+        )
+        pdf.cell(
+            0,
+            5,
+            f"DNS: {r.get('dns')} ms, TCP: {r.get('tcp')} ms, SSL: {r.get('ssl')} ms",
+            ln=True,
+        )
+        pdf.cell(
+            0,
+            5,
+            f"TTFB: {r.get('ttfb')} ms, Total: {r.get('total')} ms, Size: {r.get('size_kb')} KB",
+            ln=True,
+        )
+        pdf.cell(
+            0,
+            5,
+            f"HTTP: {r.get('http_version', 'N/A')}, CDN: {r.get('cdn_provider', 'N/A')}, Compression: {r.get('compression_type', 'N/A')}",
+            ln=True,
+        )
+        pdf.cell(
+            0,
+            5,
+            f"SSL Score: {r.get('ssl_score')}/100, Security Headers: {r.get('security_headers_score', 0)}/100",
+            ln=True,
+        )
         pdf.ln(4)
 
     pdf.output(filename)
